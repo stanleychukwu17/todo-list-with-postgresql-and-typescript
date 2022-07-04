@@ -78,8 +78,11 @@ app.delete('/todo/:id', async (req, res) => {
 
     try {
         try {
-            const newTodo = await pool.query("SELECT * FROM todo where id = $1", [id]);
-            res.json({msg:'okay', 'result': newTodo.rows[0]});
+            const newTodo = await pool.query("DELETE FROM todo where id = $1", [id], (err: any, result: any) => {
+                if (err) { res.json({msg:'bad', 'result':err}); }
+            });
+
+            res.json({msg:'okay', 'result':'Todo item deleted from our list', newTodo});
         } catch (err) {
             res.json({msg:'bad', 'result':err});
         }
