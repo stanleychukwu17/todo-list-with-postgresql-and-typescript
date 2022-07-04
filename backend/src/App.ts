@@ -1,6 +1,8 @@
 import express from 'express'
 require('dotenv').config()
 const {graphqlHTTP} = require('express-graphql')
+const {ObjectId} = require('mongodb');
+const pool = require('./db') // import {connectToDb, getDb} from './db'
 
 
 //* creates an express app
@@ -8,27 +10,37 @@ const port = process.env.PORT || 4000
 const app = express();
 app.use(express.json());
 
-//* import {connectToDb, getDb} from './db'
-const {ObjectId} = require('mongodb');
-const {connectToDb, getDb} = require('./db')
 
-//* opens connection to the mongodb database before listening for request
-let db: any
-connectToDb((err: any) => {
-    if (!err) {
-        // now we can start listening for events
-        app.listen(port, () => {
-            console.log(`now listening to request from port ${port}`)
-        })
+// creating/adding a new todo
+app.post('/todo', async(req, res) => {
+    try {
+        const {description} = req.body;
 
-        // updates our database variable
-        db = getDb()
-    } else {
-        console.log(`we have an error, error: ${err}`)
+        try {
+            const newTodo = await pool.query("INSERT INTO todo (description) VALUES ($1) RETURNING *", [description]);
+            res.json({msg:'okay', 'result': newTodo.rows[0]});
+        } catch (err) {
+            console.log(err);
+            return {'msg':'bad', 'cause':err}
+        }
+
+    } catch (err) {
+        console.log(err)
     }
 })
 
 
-// app.listen(port, () => {
-//     console.log(`now listening to request from port ${port}`)
-// })
+
+// connect to the database and then allow express to receive request
+pool.connect((err: any, client: any, release: () => void) => {
+    if (err) {
+        return console.error('Error acquiring client', err.stack)
+    }
+
+    app.listen(port, () => {
+        console.log(`now listening to request from port ${port}`)
+    })
+
+    release()
+})
+
