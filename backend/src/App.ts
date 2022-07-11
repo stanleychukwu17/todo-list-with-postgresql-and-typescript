@@ -13,21 +13,6 @@ const port = process.env.PORT || 4000
 const app = express();
 app.use(express.json());
 
-// get just one request
-app.get('/todo/:id', async (req, res) => {
-    const id = req.params.id;
-
-    try {
-        try {
-            const newTodo = await pool.query("SELECT * FROM todo where id = $1", [id]);
-            res.json({msg:'okay', 'result': newTodo.rows[0]});
-        } catch (err) {
-            res.json({msg:'bad', 'result':err});
-        }
-    } catch (err) {
-        res.json({msg:'bad', 'result':'A try and catch error', err});
-    }
-})
 
 // creating/adding a new todo
 app.post('/todo', async(req, res) => {
