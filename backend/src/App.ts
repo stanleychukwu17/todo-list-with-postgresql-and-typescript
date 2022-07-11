@@ -1,29 +1,17 @@
 import express from 'express'
 require('dotenv').config()
+
+import routes from './routes'
+import log from './logger/'
 const {graphqlHTTP} = require('express-graphql')
 const {ObjectId} = require('mongodb');
-const pool = require('./db') // import {connectToDb, getDb} from './db'
+const pool = require('./db') // database connection
 
 
 //* creates an express app
 const port = process.env.PORT || 4000
 const app = express();
 app.use(express.json());
-
-
-// get all the todo
-app.get('/todo', async (req, res) => {
-    try {
-        try {
-            const newTodo = await pool.query("SELECT * FROM todo");
-            res.json({msg:'okay', 'result': newTodo.rows});
-        } catch (err) {
-            res.json({msg:'bad', 'result':err});
-        }
-    } catch (err) {
-        res.json({msg:'bad', 'result':'A try and catch error', err});
-    }
-})
 
 // get just one request
 app.get('/todo/:id', async (req, res) => {
@@ -92,15 +80,15 @@ app.delete('/todo/:id', async (req, res) => {
 })
 
 
-
 // connect to the database and then allow express to receive request
 pool.connect((err: any, client: any, release: () => void) => {
     if (err) {
-        return console.error('Error acquiring client', err.stack)
+        return log.info('Error acquiring client', err.stack)
     }
 
     app.listen(port, () => {
         console.log(`now listening to request from port ${port}`)
+        routes(app)
     })
 
     release()
