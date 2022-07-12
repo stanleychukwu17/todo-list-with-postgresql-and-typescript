@@ -44,9 +44,10 @@ export async function updateATodo ({id, description}: updateType) {
 
 // for deleting an item in the todoList
 export async function deleteATodo (id: number) {
+    console.log(`DELETE FROM todo where id = ${id}`)
     try {
-        const newTodo = await pool.query("DELETE FROM todo where id = $1 LIMIT 1", [id], (err: any, result: any) => {
-            throw new Error(err);
+        const newTodo = await pool.query("DELETE FROM todo where id = $1", [id], (err: any, result: any) => {
+            if (err) { throw new Error(err); }
         });
         return newTodo
     } catch (error: any) {
