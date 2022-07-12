@@ -14,22 +14,6 @@ const app = express();
 app.use(express.json());
 
 
-// creating/adding a new todo
-app.post('/todo', async(req, res) => {
-    try {
-        const {description} = req.body;
-
-        try {
-            const newTodo = await pool.query("INSERT INTO todo (description) VALUES ($1) RETURNING *", [description]);
-            res.json({msg:'okay', 'result': newTodo.rows[0]});
-        } catch (err) {
-            res.json({msg:'bad', 'result':'A try and catch error', err});
-        }
-
-    } catch (err) {
-        res.json({msg:'bad', 'result':'A try and catch error', err});
-    }
-})
 
 // updating an item from the todoList
 app.put('/todo/:id', async (req, res) => {

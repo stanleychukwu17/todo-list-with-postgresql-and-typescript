@@ -1,15 +1,20 @@
 import { Request, Response } from "express";
 import log from '../logger/'
-import {getAllTodo, getOneTodo} from '../service/todo.service'
+import {
+    getAllTodo, getOneTodo, addNewTodo
+} from '../service/todo.service'
+import {
+    show_error_msg,
+    show_good_msg
+} from "../service/general.service";
 
 // gets all of the todo's
 export async function getAllTodoHandler (req: Request, res: Response) {
     try {
         const allTodo: any = await getAllTodo()
-        return res.json({msg:'okay', 'result': allTodo.rows});
+        return show_good_msg({'result':allTodo.rows, res})
     } catch (err: any) {
-        log.error(err);
-        return res.json({msg:'bad', 'cause':err});
+        return show_error_msg({'result':err.message, res})
     }
 }
 
@@ -23,9 +28,21 @@ export async function getOneToDoHandler (req: Request, res: Response) {
         }
 
         const oneTodo: any = await getOneTodo(id)
-        return res.json({msg:'okay', 'result': oneTodo.rows[0]});
+        return show_good_msg({'result':oneTodo.rows[0], res})
     } catch (err: any) {
-        log.error(err);
-        return res.json({msg:'bad', 'cause':err});
+        return show_error_msg({'result':err.message, res})
+    }
+}
+
+// adds a new todo to the list of todo
+export async function addNewTodoHandler (req: Request, res: Response) {
+    const {params, body, query} = req
+
+    try {
+        const {description} = req.body;
+        const newTodo = await addNewTodo(description)
+        return show_good_msg({'result':newTodo.rows[0], res})
+    } catch (err: any) {
+        return show_error_msg({'result':err.message, res})
     }
 }

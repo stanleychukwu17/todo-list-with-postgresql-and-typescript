@@ -19,3 +19,13 @@ export async function getOneTodo(id: number) {
         throw new Error(error);
     }
 }
+
+// adds a new item to the todo list
+export async function addNewTodo (description: string) {
+    try {
+        const newTodo = await pool.query("INSERT INTO todo (description) VALUES ($1) RETURNING *", [description])
+        return newTodo
+    } catch (error: any) {
+        throw new Error(error);
+    }
+}
