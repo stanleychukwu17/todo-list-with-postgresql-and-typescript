@@ -1,14 +1,14 @@
 const graphql = require('graphql');
 const {GraphQLObjectType, GraphQLSchema} = graphql;
 const {
-    getOneTodo, getAllTodo
+    getOneTodoQuery, getAllTodoQuery
 } = require('./todo');
 
 const RootQuery = new GraphQLObjectType({
     'name':'RootQueryType',
     fields: {
-        getOneTodo,
-        getAllTodo
+        getOneTodoQuery,
+        getAllTodoQuery
     }
 })
 

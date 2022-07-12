@@ -12,7 +12,7 @@ import {
 export async function getAllTodoHandler (req: Request, res: Response) {
     try {
         const allTodo: any = await getAllTodo()
-        return show_good_msg({'result':allTodo.rows, res})
+        return show_good_msg({'result':allTodo, res})
     } catch (err: any) {
         return show_error_msg({'result':err.message, res})
     }
@@ -28,7 +28,7 @@ export async function getOneToDoHandler (req: Request, res: Response) {
         }
 
         const oneTodo: any = await getOneTodo(id)
-        return show_good_msg({'result':oneTodo.rows[0], res})
+        return show_good_msg({'result':oneTodo, res})
     } catch (err: any) {
         return show_error_msg({'result':err.message, res})
     }

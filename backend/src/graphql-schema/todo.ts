@@ -3,7 +3,12 @@ const {
     GraphQLObjectType, GraphQLString, GraphQLInt,
     GraphQLList
 } = graphql;
+import {
+    getAllTodo,
+    getOneTodo
+} from '../service/todo.service'
 
+// creates the todoType
 const todoType = new GraphQLObjectType({
     'name':'Todo',
     'fields': () => ({
@@ -13,27 +18,32 @@ const todoType = new GraphQLObjectType({
 })
 
 
-//--START-- all of the belows are for resolvers
+//--START-- Resolvers
 // for fetching of one item
-const getOneTodo = {
+const getOneTodoQuery = {
     type: todoType,
     args: {
         id: {type: GraphQLInt}
     },
     resolve(parents: any, args: any) {
-        return {'id':1, 'description':'See the book is here'}
+        return getOneTodo(args.id)
     }
 }
 
 // for fetching all the todo's
-const getAllTodo = {
+const getAllTodoQuery = {
     type: new GraphQLList(todoType),
     resolve(parents: any, args: any) {
-        return [{'id':1, 'description':'See the book is here'}, {'id':2, 'description':'All the items are here now'}]
+        return getAllTodo()
     }
 }
+//--END--
 
-module.exports = {todoType, getOneTodo, getAllTodo}
+//--START-- Mutations
+//--END--
+
+
+module.exports = {todoType, getOneTodoQuery, getAllTodoQuery}
 
 /**
  * the below line is to solve an error caused by typescript that wouldn't let me import graphql and  {GraphQLObjectType, GraphQLString, GraphQLInt} = graphql;
