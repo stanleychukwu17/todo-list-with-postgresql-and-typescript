@@ -1,7 +1,7 @@
-import {graphql} from 'graphql'
+const graphql = require('graphql');
 const {GraphQLObjectType, GraphQLString, GraphQLInt} = graphql
 
-export const todoType = new GraphQLObjectType({
+const todoType = new GraphQLObjectType({
     'name':'Todo',
     'fields': () => ({
         'id': {type: GraphQLInt},
@@ -10,7 +10,7 @@ export const todoType = new GraphQLObjectType({
 })
 
 
-export const getOneTodo = {
+const getOneTodo = {
     type: todoType,
     args: {
         id: {type: GraphQLInt}
@@ -19,3 +19,5 @@ export const getOneTodo = {
         return {'id':1, 'description':'See the book is here'}
     }
 }
+
+module.exports = {todoType, getOneTodo}

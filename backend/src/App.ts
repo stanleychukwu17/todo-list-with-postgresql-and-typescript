@@ -4,15 +4,16 @@ require('dotenv').config()
 import routes from './routes'
 import log from './logger/'
 const {graphqlHTTP} = require('express-graphql')
-const {ObjectId} = require('mongodb');
 const pool = require('./db') // database connection
-
+const gqlSchema = require('./graphql-schema/allResolver.js')
 
 //* creates an express app
 const port = process.env.PORT || 4000
 const app = express();
 app.use(express.json());
 
+//* creates the receiving end for graphQl api
+app.use('/graphql', graphqlHTTP({schema: gqlSchema, graphiql:true}))
 
 // connect to the database and then allow express to receive request
 pool.connect((err: any, client: any, release: () => void) => {
