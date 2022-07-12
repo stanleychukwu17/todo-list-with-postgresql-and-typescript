@@ -5,7 +5,7 @@ import routes from './routes'
 import log from './logger/'
 const {graphqlHTTP} = require('express-graphql')
 const pool = require('./db') // database connection
-const gqlSchema = require('./graphql-schema/allResolver.js')
+const gqlSchema = require('./graphql-schema/allResolver')
 
 //* creates an express app
 const port = process.env.PORT || 4000
