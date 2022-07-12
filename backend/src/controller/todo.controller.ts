@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import log from '../logger/'
 import {
-    getAllTodo, getOneTodo, addNewTodo
+    getAllTodo, getOneTodo, addNewTodo, updateATodo, deleteATodo
 } from '../service/todo.service'
 import {
     show_error_msg,
@@ -34,7 +34,7 @@ export async function getOneToDoHandler (req: Request, res: Response) {
     }
 }
 
-// adds a new todo to the list of todo
+// adds a new todo to the list of todo's
 export async function addNewTodoHandler (req: Request, res: Response) {
     const {params, body, query} = req
 
@@ -44,5 +44,26 @@ export async function addNewTodoHandler (req: Request, res: Response) {
         return show_good_msg({'result':newTodo.rows[0], res})
     } catch (err: any) {
         return show_error_msg({'result':err.message, res})
+    }
+}
+
+// updates an item in the todoList
+export async function updateATodoIHandler (req: Request, res: Response) {
+    const id = Number(req.params.id);
+    const {description} = req.body;
+
+    const update = await updateATodo({id, description})
+    return show_good_msg({'result':'Successfully updated', res})
+}
+
+// for deleting an item in the todoList
+export async function deleteATodoHandler (req: Request, res: Response) {
+    const id = Number(req.params.id);
+
+    try {
+        const deletedTodo = await deleteATodo(id)
+        show_good_msg({'result':'Todo item deleted from our list', res})
+    } catch (err: any) {
+        show_error_msg({'result':err, res})
     }
 }

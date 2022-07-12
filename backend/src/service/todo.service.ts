@@ -29,3 +29,27 @@ export async function addNewTodo (description: string) {
         throw new Error(error);
     }
 }
+
+// updates an item in the todo list
+type updateType = { id: number, description: string}
+export async function updateATodo ({id, description}: updateType) {
+    pool.query("UPDATE todo SET description = $1 WHERE id = $2", [description, id], (err: any, result: any) => {
+        if (err) {
+            return {msg:'bad', 'result':err}
+        }
+
+        return {msg:'okay', 'result': 'Todo updated successfully'}
+    })
+}
+
+// for deleting an item in the todoList
+export async function deleteATodo (id: number) {
+    try {
+        const newTodo = await pool.query("DELETE FROM todo where id = $1 LIMIT 1", [id], (err: any, result: any) => {
+            throw new Error(err);
+        });
+        return newTodo
+    } catch (error: any) {
+        throw new Error(error);
+    }
+}
