@@ -41,7 +41,7 @@ export async function addNewTodoHandler (req: Request, res: Response) {
     try {
         const {description} = req.body;
         const newTodo = await addNewTodo(description)
-        return show_good_msg({'result':newTodo.rows[0], res})
+        return show_good_msg({'result':newTodo, res})
     } catch (err: any) {
         return show_error_msg({'result':err.message, res})
     }

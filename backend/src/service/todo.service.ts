@@ -23,7 +23,7 @@ export async function getOneTodo(id: number) {
 export async function addNewTodo (description: string) {
     try {
         const newTodo = await pool.query("INSERT INTO todo (description) VALUES ($1) RETURNING *", [description])
-        return newTodo
+        return newTodo.rows[0]
     } catch (error: any) {
         throw new Error(error);
     }

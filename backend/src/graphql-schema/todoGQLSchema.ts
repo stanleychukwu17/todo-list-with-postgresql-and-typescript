@@ -1,11 +1,10 @@
 const graphql = require('graphql');
 const {
-    GraphQLObjectType, GraphQLString, GraphQLInt,
+    GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLNonNull,
     GraphQLList
 } = graphql;
 import {
-    getAllTodo,
-    getOneTodo
+    getAllTodo, getOneTodo, addNewTodo
 } from '../service/todo.service'
 
 // creates the todoType
@@ -40,10 +39,23 @@ const getAllTodoQuery = {
 //--END--
 
 //--START-- Mutations
+// Adding a new todo to the list of todo's'
+const addNewTodoQuery = {
+    type: todoType,
+    args: {
+        description: {type: GraphQLNonNull(GraphQLString)}
+    },
+    resolve(parents: any, args: any) {
+        return addNewTodo(args.description)
+    }
+}
 //--END--
 
 
-module.exports = {todoType, getOneTodoQuery, getAllTodoQuery}
+module.exports = {
+    todoType, getOneTodoQuery, getAllTodoQuery,
+    addNewTodoQuery
+}
 
 /**
  * the below line is to solve an error caused by typescript that wouldn't let me import graphql and  {GraphQLObjectType, GraphQLString, GraphQLInt} = graphql;

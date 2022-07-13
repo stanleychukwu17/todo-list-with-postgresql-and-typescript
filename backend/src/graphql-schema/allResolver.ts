@@ -1,8 +1,8 @@
 const graphql = require('graphql');
 const {GraphQLObjectType, GraphQLSchema} = graphql;
 const {
-    getOneTodoQuery, getAllTodoQuery
-} = require('./todo');
+    getOneTodoQuery, getAllTodoQuery, addNewTodoQuery
+} = require('./todoGQLSchema');
 
 const RootQuery = new GraphQLObjectType({
     'name':'RootQueryType',
@@ -12,7 +12,15 @@ const RootQuery = new GraphQLObjectType({
     }
 })
 
+const mutation = new GraphQLObjectType({
+    'name':'Mutation',
+    fields: {
+        addNewTodoQuery
+    }
+})
+
 module.exports = new GraphQLSchema({
-    'query': RootQuery
+    'query': RootQuery,
+    mutation
 });
 export {}; // coverts this file to an ES module
