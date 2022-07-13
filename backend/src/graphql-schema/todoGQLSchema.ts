@@ -59,11 +59,6 @@ const updateTodoQuery = {
     },
     resolve(parents: any, args: any) {
         return updateATodo({id: args.id, description: args.description, getResult:'yes'})
-
-        return {
-            id:args.id,
-            description: args.description
-        }
     }
 }
 //--END--
