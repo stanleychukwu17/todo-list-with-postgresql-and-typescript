@@ -1,0 +1,7 @@
+@forward '../../styles/globals/';
+@use '../../styles/util/' as u1;
+
+
+.AppMain {
+    @include u1.block_display()
+}
