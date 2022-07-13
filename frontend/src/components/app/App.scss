@@ -3,5 +3,39 @@
 
 
 .AppMain {
-    @include u1.block_display()
+    @include u1.block_display();
+    width: 75%;
+    margin: u1.rem(80) auto;
+
+    &__Header {
+        font-size: u1.rem(35);
+        margin-bottom: u1.rem(20);
+    }
+
+    &__EchT {
+        display: flex;
+        font-size: u1.rem(20);
+        font-weight: bold;
+        padding: 10px 0;
+
+        .EchT1 {
+            width: 70%;
+        }
+        .EchT2, .EchT3 {
+            width: 15%; text-align: center;
+        }
+    }
+
+    &__smallText {
+        font-size: u1.rem(14.5);
+        font-weight: 400;
+    }
+
+    button {
+        position: relative;
+
+        &:active {
+            top: 2px;
+        }
+    }
 }

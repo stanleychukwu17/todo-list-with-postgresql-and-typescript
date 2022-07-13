@@ -1,6 +1,9 @@
+import './Input.scss'
 
 export const Input = () => {
   return (
-    <div>Input</div>
+    <div className="InpCvr">
+        <input type="text" /><button>Add to list</button>
+    </div>
   )
 }
