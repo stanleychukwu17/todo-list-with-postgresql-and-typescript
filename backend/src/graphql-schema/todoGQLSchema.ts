@@ -4,7 +4,7 @@ const {
     GraphQLList
 } = graphql;
 import {
-    getAllTodo, getOneTodo, addNewTodo
+    getAllTodo, getOneTodo, addNewTodo, updateATodo
 } from '../service/todo.service'
 
 // creates the todoType
@@ -49,12 +49,29 @@ const addNewTodoQuery = {
         return addNewTodo(args.description)
     }
 }
+
+// updating a todo item
+const updateTodoQuery = {
+    type: todoType,
+    args: {
+        id: {type: GraphQLNonNull(GraphQLInt)},
+        description: {type: GraphQLNonNull(GraphQLString)}
+    },
+    resolve(parents: any, args: any) {
+        return updateATodo({id: args.id, description: args.description, getResult:'yes'})
+
+        return {
+            id:args.id,
+            description: args.description
+        }
+    }
+}
 //--END--
 
 
 module.exports = {
     todoType, getOneTodoQuery, getAllTodoQuery,
-    addNewTodoQuery
+    addNewTodoQuery, updateTodoQuery
 }
 
 /**

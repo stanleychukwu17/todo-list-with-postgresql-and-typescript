@@ -30,15 +30,21 @@ export async function addNewTodo (description: string) {
 }
 
 // updates an item in the todo list
-type updateType = { id: number, description: string}
-export async function updateATodo ({id, description}: updateType) {
-    pool.query("UPDATE todo SET description = $1 WHERE id = $2", [description, id], (err: any, result: any) => {
+type updateType = { id: number, description: string, getResult?: 'yes' | 'no' }
+export async function updateATodo ({id, description, getResult}: updateType) {
+    const update = await pool.query("UPDATE todo SET description = $1 WHERE id = $2", [description, id], (err: any, result: any) => {
         if (err) {
-            return {msg:'bad', 'result':err}
+            throw new Error(err);
         }
-
-        return {msg:'okay', 'result': 'Todo updated successfully'}
+        return result;
     })
+
+    if (getResult === 'yes') {
+        const newTodo = await getOneTodo(id)
+        return newTodo
+    } else {
+        return {msg:'okay', 'result': 'Todo updated successfully'}
+    }
 }
 
 // for deleting an item in the todoList
