@@ -1,0 +1,8 @@
+axios
+framer-motion
+react router dom
+react-query
+redux
+sass
+styled-components 
+uuid
