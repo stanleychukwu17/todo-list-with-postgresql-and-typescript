@@ -3,8 +3,10 @@ import {
     getAllTodoHandler, getOneToDoHandler, addNewTodoHandler, updateATodoIHandler, deleteATodoHandler
 } from './controller/todo.controller'
 
-export default function (app: Express) {
+import {regUserHandler} from './controller/user.controller'
 
+export default function (app: Express) {
+    //--START-- the todo routes
     // get all the todo's
     app.get('/todo', getAllTodoHandler)
 
@@ -19,4 +21,9 @@ export default function (app: Express) {
 
     // deleting an item from the todoList
     app.delete('/todo/:id', deleteATodoHandler)
+    //--END--
+
+    //--START-- the user routes
+    app.post('/user/register', regUserHandler)
+    //--END--
 }

@@ -1,9 +1,7 @@
 import './App.scss';
 
 import {Input} from '../input/Input'
-import { TodoEch } from '../todo/TodoEch';
-
-
+import {TodoEch} from '../todo/TodoEch';
 
 function App() {
     return (

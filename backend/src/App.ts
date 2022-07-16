@@ -28,4 +28,3 @@ pool.connect((err: any, client: any, release: () => void) => {
 
     release()
 })
-
