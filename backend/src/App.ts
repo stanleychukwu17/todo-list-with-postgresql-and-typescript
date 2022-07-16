@@ -4,8 +4,8 @@ require('dotenv').config()
 import routes from './routes'
 import log from './logger/'
 const {graphqlHTTP} = require('express-graphql')
-const pool = require('./db') // database connection
-const gqlSchema = require('./graphql-schema/allResolver')
+const pool = require('./db') // database connection for postgresSQL
+const gqlSchema = require('./graphql-schema/allResolver') // graphql resolvers for both mutation and queries
 
 //* creates an express app
 const port = process.env.PORT || 4000
