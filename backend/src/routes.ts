@@ -3,8 +3,9 @@ import {
     getAllTodoHandler, getOneToDoHandler, addNewTodoHandler, updateATodoIHandler, deleteATodoHandler
 } from './controller/todo.controller'
 import {
-    regUserHandler, logUserIn
+    regUserHandler, logUserIn, getThisUserInfo
 } from './controller/user.controller'
+import {isAuthenticated} from './middleware/authorization'
 
 export default function (app: Express) {
     //--START-- the todo routes
@@ -27,5 +28,6 @@ export default function (app: Express) {
     //--START-- the user routes
     app.post('/user/register', regUserHandler)
     app.post('/user/login', logUserIn)
+    app.post('/user/isVerified', isAuthenticated, getThisUserInfo)
     //--END--
 }
