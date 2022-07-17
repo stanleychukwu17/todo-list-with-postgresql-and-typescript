@@ -2,8 +2,9 @@ import {Express, Request, Response} from 'express';
 import {
     getAllTodoHandler, getOneToDoHandler, addNewTodoHandler, updateATodoIHandler, deleteATodoHandler
 } from './controller/todo.controller'
-
-import {regUserHandler} from './controller/user.controller'
+import {
+    regUserHandler, logUserIn
+} from './controller/user.controller'
 
 export default function (app: Express) {
     //--START-- the todo routes
@@ -25,5 +26,6 @@ export default function (app: Express) {
 
     //--START-- the user routes
     app.post('/user/register', regUserHandler)
+    app.post('/user/login', logUserIn)
     //--END--
 }
