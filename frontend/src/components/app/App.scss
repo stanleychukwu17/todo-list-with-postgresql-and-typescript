@@ -14,15 +14,10 @@
         justify-content: space-between;
         align-items: center;
 
-        .AppPrf_cvr {
-            // display: flex;
-            // flex-direction: column;
-            // align-items: center;
-        }
-
         .AppPrf_img {
             width: 150px;
             height: 150px;
+            border: 2px solid salmon;
             border-radius: 150px;
             text-align: center;
             background-color: aqua;
@@ -50,9 +45,10 @@
             width: 15%; text-align: center;
         }
     }
+
     .AppShow__EchT {
         .EchT2 {
-            color: #56abc7;
+            color: #0056b6;
             &:hover { text-decoration: underline; cursor: pointer; font-weight: 700; }
         }
         .EchT3 {
@@ -62,8 +58,13 @@
     }
 
     &__smallText {
-        font-size: u1.rem(14.5);
+        font-size: u1.rem(16.5);
         font-weight: 400;
+    }
+
+    .iconsO {
+        position: relative;
+        margin-inline-end: 5px;
     }
 
     button {

@@ -1,5 +1,5 @@
 import './App.scss';
-import dog from '../../images/dog.jpg'
+import rocket from '../../images/rocket.jpg'
 
 import {Input} from '../input/Input'
 import {TodoEch} from '../todo/TodoEch'
@@ -12,8 +12,8 @@ function App() {
                     <div><h1>A Todo List</h1></div>
                     <div className='AppPrf_name'>Stanley Chukwu</div>
                 </div>
-                <div className='AppPrf_cvr'>
-                    <div className='AppPrf_img'><img src={dog} alt="" /></div>
+                <div className='AppPrf_img'>
+                    <img src={rocket} alt="" />
                 </div>
             </div>
             <Input />
