@@ -1,21 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
 import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
-import App from './components/app/App';
+
+
+// importing of essential
+import store from './redux/store';
 import {backendGraphQlUrl} from './default'
 
-const root = ReactDOM.createRoot(
-    document.getElementById('root') as HTMLElement
-);
 
+// importing of components
+import App from './components/app/App';
+
+
+// below, we setup the graphQl client
 const client = new ApolloClient({
     cache: new InMemoryCache(),
     link : new HttpLink({
         uri: backendGraphQlUrl
     })
 })
+
+
+
+const root = ReactDOM.createRoot(
+    document.getElementById('root') as HTMLElement
+);
+
 root.render(
-    <ApolloProvider client={client}>
-        <App />
-    </ApolloProvider>
+    <Provider store={store}>
+        <ApolloProvider client={client}>
+            <App />
+        </ApolloProvider>
+    </Provider>
 );
