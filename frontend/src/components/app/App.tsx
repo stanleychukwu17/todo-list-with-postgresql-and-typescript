@@ -1,10 +1,15 @@
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+
+// importing of components
 import './App.scss';
 import rocket from '../../images/rocket.jpg'
-
 import {Input} from '../input/Input'
 import {TodoEch} from '../todo/TodoEch'
 
 function App() {
+    const loggedIn = useAppSelector((state)=> state.user.loggedIn)
+    console.log('we are now almost there', loggedIn)
+
     return (
         <div className="AppMain">
             <div className='AppMain__Header'>

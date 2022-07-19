@@ -4,7 +4,7 @@ export const userSlice = createSlice({
     name: "user",
     initialState: {
         loggedIn: false,
-        jwtToken: 'dokeoekodekodekoedko',
+        jwtToken: '',
         userInfo: {
             name: 'stanley',
             email: 'stanley@gmail.com',
