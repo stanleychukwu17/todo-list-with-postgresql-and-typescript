@@ -1,5 +1,8 @@
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
+// Import pages
+import LoginPage from '../../pages/Login/LoginPage';
+
 // importing of components
 import './App.scss';
 import rocket from '../../images/rocket.jpg'
@@ -8,7 +11,9 @@ import {TodoEch} from '../todo/TodoEch'
 
 function App() {
     const loggedIn = useAppSelector((state)=> state.user.loggedIn)
-    console.log('we are now almost there', loggedIn)
+    if (!loggedIn) {
+        return <LoginPage />
+    }
 
     return (
         <div className="AppMain">
