@@ -39,6 +39,13 @@ export async function getThisUserDts (dts: f_props) {
     return userDts;
 }
 
+// updates the last time a user was seen
+type lastSeenProps = {userId: number}
+export async function updateTheLastSeen ({userId}: lastSeenProps) {
+    const update = await pool.query("UPDATE users SET last_seen = now() WHERE id = $1 LIMIT 1", [userId])
+    return {'msg':'okay', 'cause':'Updated successfully'}
+}
+
 // login a user
 type loginProps = {email: string, password: string}
 export async function logUserInHandler ({email, password: receivedPassword}: loginProps) {
@@ -59,6 +66,10 @@ export async function logUserInHandler ({email, password: receivedPassword}: log
         return {'msg':'bad', 'cause':'InValid password received'}
     }
 
+    // update the last time this user was seen
+    updateTheLastSeen({userId})
+
+    // generates a token for the user
     const token = jwtGenerator(userId)
     return {'msg':'okay', token:token}
 }

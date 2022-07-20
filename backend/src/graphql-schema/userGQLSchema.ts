@@ -3,10 +3,11 @@ const {
     GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLNonNull,
     GraphQLList
 } = graphql;
-const {
+import {
     logUserInHandler
-} = require('../service/user.service')
+} from '../service/user.service'
 
+console.log(logUserInHandler, typeof logUserInHandler)
 
 // creates the userType
 const userType = new GraphQLObjectType({
@@ -24,6 +25,7 @@ const loginType = new GraphQLObjectType({
     name: 'Login',
     fields: () => ({
         'msg':{type: GraphQLString},
+        'cause':{type: GraphQLString},
         'token':{type: GraphQLString}
     })
 })
@@ -40,7 +42,19 @@ const loginThisUser = {
         password: {type: GraphQLNonNull(GraphQLString)}
     },
     resolve(parents: any, args: any) {
-        return logUserInHandler()
+        return logUserInHandler({email:args.email, password:args.password})
     }
 }
 //--END--
+
+
+module.exports = {
+    loginThisUser
+}
+
+/**
+ * the below line is to solve an error caused by typescript that wouldn't let me import graphql and  {GraphQLObjectType, GraphQLString, GraphQLInt} = graphql;
+ * telling me typescript-cannot-redeclare-block-scoped-variable
+ * read this article - https://bobbyhadz.com/blog/typescript-cannot-redeclare-block-scoped-variable
+*/
+export {}
