@@ -7,7 +7,6 @@ import {
     logUserInHandler
 } from '../service/user.service'
 
-console.log(logUserInHandler, typeof logUserInHandler)
 
 // creates the userType
 const userType = new GraphQLObjectType({
@@ -35,16 +34,23 @@ const loginType = new GraphQLObjectType({
 //--END--
 
 //--START-- Mutations
+// for login of users
 const loginThisUser = {
     type: loginType,
     args: {
-        email: {type: GraphQLNonNull(GraphQLString)},
-        password: {type: GraphQLNonNull(GraphQLString)}
+        email: {type: GraphQLString},
+        password: {type: GraphQLString}
     },
     resolve(parents: any, args: any) {
         return logUserInHandler({email:args.email, password:args.password})
     }
 }
+// const loginThisUser = {
+//     type: loginType,
+//     resolve(parents: any, args: any) {
+//         return logUserInHandler({email:'stanley', password:'chukwu'})
+//     }
+// }
 //--END--
 
 

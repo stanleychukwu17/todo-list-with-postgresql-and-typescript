@@ -1,5 +1,5 @@
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
+import { useMutation } from '@apollo/client';
 
 // importing the stylesheet
 import './LoginPage.scss';
@@ -7,13 +7,38 @@ import './LoginPage.scss';
 // importing of types
 import type {logInUserProps} from  './loginPage.d'
 
+// importing of mutations and queries
+import {LOGIN_THIS_USER_MUTATION} from '../../GraphQL/mutations/userMutations'
+
 export default function LoginPage() {
     const [logEmail, setLogEmail] = useState<string>('')
     const [logPass, setLogPass] = useState<string>('')
 
-    // the function that logs the user in
-    const logThisUserIn = async (obj: logInUserProps) => {
-        
+    // initiates the mutation functions
+    const [loginThisUser, { data: tokenLogin, loading: loadingLogin }] = useMutation(LOGIN_THIS_USER_MUTATION, {
+        variables: {'email':logEmail, 'password':logPass }
+    });
+    // const [loginThisUser, { data: tokenLogin, loading: loadingLogin }] = useMutation(LOGIN_THIS_USER_MUTATION);
+
+    // updates the token after successful log in
+    useEffect(() => {
+      console.log(tokenLogin)
+
+    }, [tokenLogin])
+    
+    // logs the user in
+    const loginFunction = async (obj: logInUserProps) => {
+        if (logEmail === '' || logPass === '') {
+            return alert('Please fill in all fields');
+        }
+
+        loginThisUser();
+        // console.log({
+        //     variables: {
+        //         email: logEmail,
+        //         password: logPass
+        //     }
+        // })
     }
 
     return (
@@ -33,7 +58,7 @@ export default function LoginPage() {
                 </div>
                 <div className='LgpBtn'>
                     <button onClick={async () => {
-                        logThisUserIn({logEmail, logPass})
+                        loginFunction({logEmail, logPass})
                     }}>Done</button>
                 </div>
             </div>
