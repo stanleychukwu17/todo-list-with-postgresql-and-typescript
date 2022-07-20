@@ -10,11 +10,20 @@ export const userSlice = createSlice({
 
     reducers : {
         updateLoggedIn: (state, action:PayloadAction<{token:string, name:string}>) => {
-            state = {...state, 'loggedIn': true, 'token': action.payload.token, 'name': action.payload.name}
-            console.log(state)
+            // state = {...state, 'loggedIn': true, 'token': action.payload.token, 'name': action.payload.name}
+            state.loggedIn = true;
+            state.token = action.payload.token;
+            state.name = action.payload.name;
+
+            window.localStorage.setItem('todoUserDts', JSON.stringify({
+                token: state.token,
+                name: state.name
+            }));
         }
     }
 })
+
+
 
 // export the actions of the redux and then finally export the reducer
 export const {

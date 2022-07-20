@@ -6,6 +6,7 @@ const LOGIN_THIS_USER_MUTATION = gql`
             msg
             cause
             token
+            name
         }
     }
 `;

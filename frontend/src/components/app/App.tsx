@@ -1,7 +1,8 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import {updateLoggedIn} from '../../redux/userSlice'
 
-// Import pages
-import LoginPage from '../../pages/Login/LoginPage';
 
 // importing of components
 import './App.scss';
@@ -9,11 +10,27 @@ import rocket from '../../images/rocket.jpg'
 import {Input} from '../input/Input'
 import {TodoEch} from '../todo/TodoEch'
 
+//
+
 function App() {
-    const loggedIn = useAppSelector((state)=> state.user.loggedIn)
-    if (!loggedIn) {
-        return <LoginPage />
+    const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+    let loggedIn = useAppSelector((state)=> state.user.loggedIn)
+    let dts1 = window.localStorage.getItem('todoUserDts')
+
+    if (dts1 && dts1.length > 0 && !loggedIn) {
+        let dts2 = JSON.parse(dts1)
+        dispatch(updateLoggedIn(dts2))
+        loggedIn = true
     }
+
+    // take this user to loginPage user is not logged in
+    useEffect(() => {
+        if (!loggedIn) {
+            return navigate('/login')
+        }
+    }, [loggedIn, navigate])
+
 
     return (
         <div className="AppMain">
