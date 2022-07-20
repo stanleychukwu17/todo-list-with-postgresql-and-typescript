@@ -20,12 +20,15 @@ const gqlSchema = require('./graphql-schema/allResolver') // graphql resolvers f
 
 
 
+/**
+    * used to debug gql issues 
+    app.use('/graphql', (req, res, next) => {
+        console.log(req.body.query)
+        console.log('next now')
+        next()
+    })
+*/
 //* creates the receiving end for graphQl api
-app.use('/graphql', (req, res, next) => {
-    console.log(req.body.query)
-    console.log('next now')
-    next()
-})
 app.use('/graphql', graphqlHTTP({schema: gqlSchema, graphiql:true}))
 
 // connect to the database and then allow express to receive request

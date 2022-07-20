@@ -4,14 +4,15 @@ export const userSlice = createSlice({
     name: "user",
     initialState: {
         loggedIn: false,
-        jwtToken: '',
-        userInfo: {
-            name: 'stanley',
-            email: 'stanley@gmail.com',
-        },
+        token: '',
+        name: '',
     },
+
     reducers : {
-        updateLoggedIn: (state) => { state.loggedIn = true}
+        updateLoggedIn: (state, action:PayloadAction<{token:string, name:string}>) => {
+            state = {...state, 'loggedIn': true, 'token': action.payload.token, 'name': action.payload.name}
+            console.log(state)
+        }
     }
 })
 

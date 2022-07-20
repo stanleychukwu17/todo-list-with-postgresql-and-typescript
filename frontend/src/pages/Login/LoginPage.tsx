@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 
+// import what is needed for redux
+import {updateLoggedIn} from '../../redux/userSlice'
+import { useAppDispatch } from '../../redux/hooks';
+
 // importing the stylesheet
 import './LoginPage.scss';
 
@@ -13,18 +17,26 @@ import {LOGIN_THIS_USER_MUTATION} from '../../GraphQL/mutations/userMutations'
 export default function LoginPage() {
     const [logEmail, setLogEmail] = useState<string>('')
     const [logPass, setLogPass] = useState<string>('')
+    const dispatch = useAppDispatch()
 
     // initiates the mutation functions
-    const [loginThisUser, { data: tokenLogin, loading: loadingLogin }] = useMutation(LOGIN_THIS_USER_MUTATION, {
+    const [loginThisUser, { data: data4login }] = useMutation(LOGIN_THIS_USER_MUTATION, {
         variables: {'email':logEmail, 'password':logPass }
     });
-    // const [loginThisUser, { data: tokenLogin, loading: loadingLogin }] = useMutation(LOGIN_THIS_USER_MUTATION);
 
     // updates the token after successful log in
     useEffect(() => {
-      console.log(tokenLogin)
+        if (!data4login) { return }
 
-    }, [tokenLogin])
+        const {msg, token, name, cause} = data4login.loginThisUser
+        if (msg === 'okay') {
+            // update the redux state to reflect the user has logged in and send them back to home page
+            dispatch(updateLoggedIn({token, name}))
+        } else {
+            alert(cause)
+        }
+
+    }, [data4login])
     
     // logs the user in
     const loginFunction = async (obj: logInUserProps) => {

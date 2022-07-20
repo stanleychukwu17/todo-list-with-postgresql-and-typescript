@@ -25,7 +25,8 @@ const loginType = new GraphQLObjectType({
     fields: () => ({
         'msg':{type: GraphQLString},
         'cause':{type: GraphQLString},
-        'token':{type: GraphQLString}
+        'token':{type: GraphQLString},
+        'name':{type: GraphQLString},
     })
 })
 
@@ -45,12 +46,6 @@ const loginThisUser = {
         return logUserInHandler({email:args.email, password:args.password})
     }
 }
-// const loginThisUser = {
-//     type: loginType,
-//     resolve(parents: any, args: any) {
-//         return logUserInHandler({email:'stanley', password:'chukwu'})
-//     }
-// }
 //--END--
 
 

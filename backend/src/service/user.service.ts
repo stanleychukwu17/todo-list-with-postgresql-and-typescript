@@ -42,7 +42,7 @@ export async function getThisUserDts (dts: f_props) {
 // updates the last time a user was seen
 type lastSeenProps = {userId: number}
 export async function updateTheLastSeen ({userId}: lastSeenProps) {
-    const update = await pool.query("UPDATE users SET last_seen = now() WHERE id = $1 LIMIT 1", [userId])
+    const update = await pool.query("UPDATE users SET last_seen = now() WHERE id = $1", [userId])
     return {'msg':'okay', 'cause':'Updated successfully'}
 }
 
@@ -60,7 +60,7 @@ export async function logUserInHandler ({email, password: receivedPassword}: log
     }
 
     // compare the password received to see if the match
-    const {id:userId, password:userPassword} = userDts.rows[0]
+    const {id:userId, name, password:userPassword} = userDts.rows[0]
     const validPassword = await bcrypt.compare(receivedPassword, userPassword)
     if (!validPassword) {
         return {'msg':'bad', 'cause':'InValid password received'}
@@ -71,5 +71,5 @@ export async function logUserInHandler ({email, password: receivedPassword}: log
 
     // generates a token for the user
     const token = jwtGenerator(userId)
-    return {'msg':'okay', token:token}
+    return {'msg':'okay', token, name}
 }
