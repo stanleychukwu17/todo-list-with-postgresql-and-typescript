@@ -1,12 +1,20 @@
 const pool = require('../db') // database connection
 import {getUserIdFromThisToken} from '../middleware/authorization'
 
-export async function getAllTodo() {
+export async function getAllTodo(userToken: string) {
     try {
+        const userVerify = await getUserIdFromThisToken(userToken);
+
+        if (userVerify.msg !== 'okay') {
+            // throw new Error(userVerify.cause);
+            return {'msg':'bad', 'cause':userVerify.cause}
+        }
+
         const todo = await pool.query("SELECT * from todo")
         return todo.rows
     } catch (error: any) {
-        throw new Error(error);
+        // throw new Error(error);
+        return {'msg':'bad', 'cause':error.message}
     }
 }
 
@@ -14,9 +22,11 @@ export async function getAllTodo() {
 export async function getOneTodo(id: number) {
     try {
         const todo = await pool.query("SELECT * from todo where id = $1 LIMIT 1", [id])
+        todo.rows[0].msg = 'okay'
         return todo.rows[0]
     } catch (error: any) {
-        throw new Error(error);
+        // throw new Error(error);
+        return {'msg':'bad', 'cause':error.message}
     }
 }
 
@@ -26,7 +36,8 @@ export async function addNewTodo (description: string, userToken: string) {
         const userVerify = await getUserIdFromThisToken(userToken);
 
         if (userVerify.msg !== 'okay') {
-            throw new Error(userVerify.cause);
+            // throw new Error(userVerify.cause);
+            return {'msg':'bad', 'cause':userVerify.cause}
         }
 
         // gets the userId
@@ -34,9 +45,11 @@ export async function addNewTodo (description: string, userToken: string) {
 
         // saves the new todo
         const newTodo = await pool.query("INSERT INTO todo (description, user_id) VALUES ($1, $2) RETURNING *", [description, userId]);
+        newTodo.rows[0].msg = 'okay'
         return newTodo.rows[0]
     } catch (error: any) {
-        throw new Error(error);
+        // throw new Error(error);
+        return {'msg':'bad', 'cause':error.message}
     }
 }
 

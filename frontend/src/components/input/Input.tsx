@@ -1,4 +1,10 @@
 import React, { useState } from 'react'
+import { useMutation } from '@apollo/client'
+
+// importing mutation queries for graphql
+import { ADD_THIS_ITEM_TO_THIS_USER_TODO_LIST } from '../../GraphQL/mutations/todoMutations'
+
+// importing the sass stylesheet
 import './Input.scss'
 
 type inputProps = {
@@ -6,7 +12,25 @@ type inputProps = {
 }
 export const Input = ({token}: inputProps) => {
     const [description, setDescription] = useState<string>('')
-    console.log(description)
+    const [saveNewTodo, {data, error}] = useMutation(ADD_THIS_ITEM_TO_THIS_USER_TODO_LIST, {
+        variables: {description, token}
+    })
+
+    // the function that saves the new todo
+    const saveThisTodo = () => {
+        if (description.length <= 0) { return }
+
+        saveNewTodo()
+    }
+
+    // if there are any errors 
+    if (error) {
+        console.log(error)
+        alert(error.message)
+    }
+    if (data) {
+        console.log(data)
+    }
 
     return (
         <div className="InpCvr">
@@ -17,7 +41,7 @@ export const Input = ({token}: inputProps) => {
                     setDescription(e.target.value)
                 }}
             />
-            <button onClick={()=> { console.log('lets show gql why we love it!')  }}>Add to list</button>
+            <button onClick={()=> { saveThisTodo() }}>Add to list</button>
         </div>
     )
 }

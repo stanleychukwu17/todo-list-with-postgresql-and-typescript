@@ -12,7 +12,8 @@ const todoType = new GraphQLObjectType({
     'name':'Todo',
     'fields': () => ({
         'id': {type: GraphQLInt},
-        'description': {type: GraphQLString}
+        'description': {type: GraphQLString},
+        'msg': {type: GraphQLString}
     })
 })
 
@@ -32,8 +33,11 @@ const getOneTodoQuery = {
 // for fetching all the todo's
 const getAllTodoQuery = {
     type: new GraphQLList(todoType),
+    args: {
+        token: {type: GraphQLNonNull(GraphQLString)}
+    },
     resolve(parents: any, args: any) {
-        return getAllTodo()
+        return getAllTodo(args.token)
     }
 }
 //--END--
