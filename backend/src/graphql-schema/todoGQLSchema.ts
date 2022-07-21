@@ -43,10 +43,11 @@ const getAllTodoQuery = {
 const addNewTodoQuery = {
     type: todoType,
     args: {
-        description: {type: GraphQLNonNull(GraphQLString)}
+        description: {type: GraphQLNonNull(GraphQLString)},
+        token: {type: GraphQLNonNull(GraphQLString)}
     },
     resolve(parents: any, args: any) {
-        return addNewTodo(args.description)
+        return addNewTodo(args.description, args.token);
     }
 }
 

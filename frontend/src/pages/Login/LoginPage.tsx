@@ -38,9 +38,9 @@ export default function LoginPage() {
     // updates the token after successful log in
     useEffect(() => {
         // send the user back to the homePage if they are already logged in
-        // if (loggedIn) {
-        //     navigate('/')
-        // }
+        if (loggedIn) {
+            navigate('/')
+        }
 
         // if the data is undefined, means the request to login has not been called/made
         if (!data4login) { return }

@@ -15,8 +15,9 @@ import {TodoEch} from '../todo/TodoEch'
 function App() {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    let {loggedIn, name} = useAppSelector((state)=> state.user)
+    let {loggedIn, name, token} = useAppSelector((state)=> state.user)
 
+    console.log(token)
     // calls a utility function to see if the user is logged in
     if (!loggedIn) {
         loggedIn = check_this_user_is_logged_in({dispatch})

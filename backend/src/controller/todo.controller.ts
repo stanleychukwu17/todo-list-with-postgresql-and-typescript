@@ -36,11 +36,11 @@ export async function getOneToDoHandler (req: Request, res: Response) {
 
 // adds a new todo to the list of todo's
 export async function addNewTodoHandler (req: Request, res: Response) {
-    const {params, body, query} = req
+    // const {params, body, query} = req - just so you know!
 
     try {
-        const {description} = req.body;
-        const newTodo = await addNewTodo(description)
+        const {description, token} = req.body;
+        const newTodo = await addNewTodo(description, token)
         return show_good_msg({'result':newTodo, res})
     } catch (err: any) {
         return show_error_msg({'result':err.message, res})

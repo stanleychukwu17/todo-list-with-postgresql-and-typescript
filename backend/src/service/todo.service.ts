@@ -1,4 +1,5 @@
 const pool = require('../db') // database connection
+import {getUserIdFromThisToken} from '../middleware/authorization'
 
 export async function getAllTodo() {
     try {
@@ -20,9 +21,17 @@ export async function getOneTodo(id: number) {
 }
 
 // adds a new item to the todo list
-export async function addNewTodo (description: string) {
+export async function addNewTodo (description: string, userToken: string) {
     try {
-        const newTodo = await pool.query("INSERT INTO todo (description) VALUES ($1) RETURNING *", [description])
+        const userVerify = await getUserIdFromThisToken(userToken);
+
+        if (userVerify.msg !== 'okay') {
+            throw new Error(userVerify.cause);
+        }
+
+        const userId = userVerify.userId
+
+        const newTodo = await pool.query("INSERT INTO todo (description, user_id) VALUES ($1, $2) RETURNING *", [description, userId]);
         return newTodo.rows[0]
     } catch (error: any) {
         throw new Error(error);
