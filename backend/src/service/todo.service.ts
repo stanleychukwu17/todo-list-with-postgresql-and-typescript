@@ -29,8 +29,10 @@ export async function addNewTodo (description: string, userToken: string) {
             throw new Error(userVerify.cause);
         }
 
+        // gets the userId
         const userId = userVerify.userId
 
+        // saves the new todo
         const newTodo = await pool.query("INSERT INTO todo (description, user_id) VALUES ($1, $2) RETURNING *", [description, userId]);
         return newTodo.rows[0]
     } catch (error: any) {

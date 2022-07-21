@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import {updateLoggedIn} from '../../redux/userSlice'
 import { check_this_user_is_logged_in } from '../../utils/functions';
 
 
@@ -17,7 +16,7 @@ function App() {
     const dispatch = useAppDispatch()
     let {loggedIn, name, token} = useAppSelector((state)=> state.user)
 
-    console.log(token)
+    // console.log(token)
     // calls a utility function to see if the user is logged in
     if (!loggedIn) {
         loggedIn = check_this_user_is_logged_in({dispatch})
@@ -45,7 +44,7 @@ function App() {
                     <img src={rocket} alt="" />
                 </div>
             </div>
-            <Input />
+            <Input token={token} />
             <div className="AppMain__EchT">
                 <div className="EchT1">Description</div>
                 <div className="EchT2">Edit</div>
