@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {updateLoggedIn} from '../../redux/userSlice'
+import { check_this_user_is_logged_in } from '../../utils/functions';
 
 
 // importing of components
@@ -14,14 +15,11 @@ import {TodoEch} from '../todo/TodoEch'
 function App() {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    let {loggedIn, name, token} = useAppSelector((state)=> state.user)
-    let dts1 = window.localStorage.getItem('todoUserDts')
+    let {loggedIn, name} = useAppSelector((state)=> state.user)
 
-    // if the user is not logged in, we check the localStorage to see if there are any stored details(i.e the user name and token)
-    if (dts1 && dts1.length > 0 && !loggedIn) {
-        let dts2 = JSON.parse(dts1)
-        dispatch(updateLoggedIn(dts2))
-        loggedIn = true
+    // calls a utility function to see if the user is logged in
+    if (!loggedIn) {
+        loggedIn = check_this_user_is_logged_in({dispatch})
     }
 
     // take this user to loginPage user is not logged in

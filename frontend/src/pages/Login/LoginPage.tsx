@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 // import what is needed for redux
 import {updateLoggedIn} from '../../redux/userSlice'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { check_this_user_is_logged_in } from '../../utils/functions';
 
 // importing the stylesheet
 import './LoginPage.scss';
@@ -19,14 +20,15 @@ import {LOGIN_THIS_USER_MUTATION} from '../../GraphQL/mutations/userMutations'
 export default function LoginPage() {
     const [logEmail, setLogEmail] = useState<string>('chukwu@gmail.com')
     const [logPass, setLogPass] = useState<string>('missmetoday')
-    const loggedIn = useAppSelector((state)=> state.user.loggedIn)
-    const dispatch = useAppDispatch()
+    let loggedIn = useAppSelector((state)=> state.user.loggedIn)
     const navigate = useNavigate()
+    const dispatch = useAppDispatch()
 
-    //
-    if (loggedIn) {
-        console.log('show home page')
+    // calls a utility function to see if the user is logged in
+    if (!loggedIn) {
+        loggedIn = check_this_user_is_logged_in({dispatch})
     }
+
 
     // initiates the mutation functions
     const [loginThisUser, { data: data4login }] = useMutation(LOGIN_THIS_USER_MUTATION, {
@@ -35,10 +37,15 @@ export default function LoginPage() {
 
     // updates the token after successful log in
     useEffect(() => {
-        // if the data is undefined, means the request to login has not been called
+        // send the user back to the homePage if they are already logged in
+        // if (loggedIn) {
+        //     navigate('/')
+        // }
+
+        // if the data is undefined, means the request to login has not been called/made
         if (!data4login) { return }
 
-        // destructure the values returned from the graphql request
+        // destructure the values returned from the graphql request after request to login has been called
         const {msg, token, name, cause} = data4login.loginThisUser
 
         if (msg === 'okay') {
@@ -47,7 +54,7 @@ export default function LoginPage() {
         } else {
             alert(cause)
         }
-    }, [data4login, dispatch, navigate])
+    }, [data4login, dispatch, navigate, loggedIn])
 
     // logs the user in
     const loginFunction = async (obj: logInUserProps) => {
