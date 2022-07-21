@@ -10,12 +10,11 @@ import rocket from '../../images/rocket.jpg'
 import {Input} from '../input/Input'
 import {TodoEch} from '../todo/TodoEch'
 
-//
 
 function App() {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    let loggedIn = useAppSelector((state)=> state.user.loggedIn)
+    let {loggedIn, name, token} = useAppSelector((state)=> state.user)
     let dts1 = window.localStorage.getItem('todoUserDts')
 
     if (dts1 && dts1.length > 0 && !loggedIn) {
@@ -37,7 +36,10 @@ function App() {
             <div className='AppMain__Header'>
                 <div>
                     <div><h1>A Todo List</h1></div>
-                    <div className='AppPrf_name'>Stanley Chukwu</div>
+                    <div className='AppPrf_name'>
+                        <span>{name}</span>
+                        <button onClick={() => navigate('/logout')}>Logout</button>
+                    </div>
                 </div>
                 <div className='AppPrf_img'>
                     <img src={rocket} alt="" />

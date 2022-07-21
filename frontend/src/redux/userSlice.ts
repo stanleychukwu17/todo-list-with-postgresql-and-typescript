@@ -9,8 +9,8 @@ export const userSlice = createSlice({
     },
 
     reducers : {
+        // updates loggedIn state to true
         updateLoggedIn: (state, action:PayloadAction<{token:string, name:string}>) => {
-            // state = {...state, 'loggedIn': true, 'token': action.payload.token, 'name': action.payload.name}
             state.loggedIn = true;
             state.token = action.payload.token;
             state.name = action.payload.name;
@@ -19,6 +19,14 @@ export const userSlice = createSlice({
                 token: state.token,
                 name: state.name
             }));
+        },
+
+        // updates loggedIn state to false
+        updateLoggedOut: (state) => {
+            state.loggedIn = false;
+            state.token = '';
+            state.name = '';
+            window.localStorage.removeItem('todoUserDts');
         }
     }
 })
@@ -27,6 +35,7 @@ export const userSlice = createSlice({
 
 // export the actions of the redux and then finally export the reducer
 export const {
-    updateLoggedIn
+    updateLoggedIn,
+    updateLoggedOut
 } = userSlice.actions
 export default userSlice.reducer

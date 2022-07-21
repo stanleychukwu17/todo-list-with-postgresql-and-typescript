@@ -14,9 +14,29 @@
         justify-content: space-between;
         align-items: center;
 
+        .AppPrf_name {
+            text-transform: capitalize;
+            display: flex;
+            margin: u1.rem(5) 0 0;
+
+            button {
+                // position: relative;
+                left: 4%;
+                padding: 15px 15px;
+                width: u1.rem(140);
+                font-size: u1.rem(16);
+                font-weight: bold;
+                background-color: #f1f2f6;
+                // background-color: #f1f2f6;
+                border: 2px solid #fefefe;
+                border-radius: 60px;
+                // box-shadow: 6px 6px 7px #e9e9ea, -6px -6px 7px #ffffff;
+            }
+        }
+
         .AppPrf_img {
-            width: 150px;
-            height: 150px;
+            width: 170px;
+            height: 170px;
             border: 2px solid salmon;
             border-radius: 150px;
             text-align: center;
@@ -69,6 +89,7 @@
 
     button {
         position: relative;
+        cursor: pointer;
 
         &:active {
             top: 2px;
