@@ -11,7 +11,7 @@ import {
 // gets all of the todo's
 export async function getAllTodoHandler (req: Request, res: Response) {
     try {
-        const userToken = req.params.token
+        const userToken = req.query.token as string
         const allTodo: any = await getAllTodo(userToken)
         return show_good_msg({'result':allTodo, res})
     } catch (err: any) {

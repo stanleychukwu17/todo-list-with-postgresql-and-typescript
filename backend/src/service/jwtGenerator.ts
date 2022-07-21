@@ -8,6 +8,6 @@ export function jwtGenerator(userId: number) {
     const secret = process.env.jwtSecret as Secret
 
     // the line below generates a token
-    const token = jwt.sign(payload, secret, {expiresIn: '1hr'})
+    const token = jwt.sign(payload, secret, {expiresIn: '3hr'})
     return token
 }

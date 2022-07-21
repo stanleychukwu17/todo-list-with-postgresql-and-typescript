@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { check_this_user_is_logged_in } from '../../utils/functions';
 
+// importing the values needed for graphql queries
+import { GET_ALL_OF_THIS_USER_TODO_ITEMS } from '../../GraphQL/queries/todoQueries';
 
 // importing of components
 import './App.scss';
@@ -15,8 +18,12 @@ function App() {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     let {loggedIn, name, token} = useAppSelector((state)=> state.user)
+    const {loading, error, data} = useQuery(GET_ALL_OF_THIS_USER_TODO_ITEMS, {
+        variables:{token}
+    })
 
-    // console.log(token)
+    console.log({loading, error, data})
+    console.log(token)
     // calls a utility function to see if the user is logged in
     if (!loggedIn) {
         loggedIn = check_this_user_is_logged_in({dispatch})

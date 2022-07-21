@@ -10,7 +10,10 @@ export async function getAllTodo(userToken: string) {
             return {'msg':'bad', 'cause':userVerify.cause}
         }
 
-        const todo = await pool.query("SELECT * from todo")
+        // gets the userId
+        const userId = userVerify.userId
+
+        const todo = await pool.query("SELECT * from todo WHERE user_id = $1 ORDER BY id desc", [userId])
         return todo.rows
     } catch (error: any) {
         // throw new Error(error);
