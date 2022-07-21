@@ -64,7 +64,7 @@ function App() {
             <div className="AppShow__EchT">
                 {todoItems && (
                     todoItems.getAllTodoQuery.map((todo1: todoProps, index: number) => {
-                        return (<TodoEch key={todo1.id} todo={todo1} />)
+                        return (<TodoEch key={todo1.id} todo={todo1} token={token} />)
                     })
                 )}
                 

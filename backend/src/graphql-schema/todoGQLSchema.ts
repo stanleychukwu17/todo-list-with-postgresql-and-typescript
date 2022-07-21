@@ -59,11 +59,12 @@ const addNewTodoQuery = {
 const updateTodoQuery = {
     type: todoType,
     args: {
-        id: {type: GraphQLNonNull(GraphQLInt)},
-        description: {type: GraphQLNonNull(GraphQLString)}
+        id: {type: GraphQLNonNull(GraphQLString)},
+        description: {type: GraphQLNonNull(GraphQLString)},
+        token: {type: GraphQLNonNull(GraphQLString)},
     },
     resolve(parents: any, args: any) {
-        return updateATodo({id: args.id, description: args.description, getResult:'yes'})
+        return updateATodo({id: args.id, description: args.description, token: args.token, getResult:'yes'})
     }
 }
 

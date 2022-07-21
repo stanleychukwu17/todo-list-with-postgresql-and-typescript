@@ -1,21 +1,38 @@
 import { useRef, useState } from 'react'
+import { useMutation } from '@apollo/client'
 import {FaPen} from 'react-icons/fa'
 import {FaTrashRestore} from 'react-icons/fa'
 
 import './TodoEch.scss'
+import { UPDATE_THIS_TODO_ITEM } from '../../GraphQL/mutations/todoMutations'
 
 
+// define the types needed for the component
 export type todoProps = {id:number, description: string}
 export type finalProps = {
-    todo : todoProps
+    todo: todoProps,
+    token: string
 }
-export const TodoEch = ({todo}: finalProps) => {
+export const TodoEch = ({todo, token}: finalProps) => {
     const todoId = useRef<number>(todo.id)
     const [description, setDescription] = useState<string>(todo.description)
     const [showModal, setShowModal] = useState<boolean>(false)
+    const [updateTodo, {error}] = useMutation(UPDATE_THIS_TODO_ITEM, {
+        variables:{
+            id: String(todoId.current),
+            description,
+            token
+        }
+    })
 
+    // if any error when updating the todo item
+    if (error) {
+        alert(error.message)
+    }
+
+    // function that saves the changes/update to the edited todo item
     const saveThisTodo = () => {
-        console.log(todoId)
+        updateTodo()
         setShowModal(false)
     }
 

@@ -52,9 +52,9 @@ export async function addNewTodoHandler (req: Request, res: Response) {
 // updates an item in the todoList
 export async function updateATodoIHandler (req: Request, res: Response) {
     const id = Number(req.params.id);
-    const {description} = req.body;
+    const {description, token} = req.body;
 
-    const update = await updateATodo({id, description})
+    const update = await updateATodo({id, description, token})
     return show_good_msg({'result':'Successfully updated', res})
 }
 

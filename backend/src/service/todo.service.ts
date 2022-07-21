@@ -57,20 +57,34 @@ export async function addNewTodo (description: string, userToken: string) {
 }
 
 // updates an item in the todo list
-type updateType = { id: number, description: string, getResult?: 'yes' | 'no' }
-export async function updateATodo ({id, description, getResult}: updateType) {
-    const update = await pool.query("UPDATE todo SET description = $1 WHERE id = $2", [description, id], (err: any, result: any) => {
-        if (err) {
-            throw new Error(err);
-        }
-        return result;
-    })
+type updateType = { id: number, description: string, token:string, getResult?: 'yes' | 'no' }
+export async function updateATodo ({id, description, token, getResult}: updateType) {
+    try {
+        const userVerify = await getUserIdFromThisToken(token);
 
-    if (getResult === 'yes') {
-        const newTodo = await getOneTodo(id)
-        return newTodo
-    } else {
-        return {msg:'okay', 'result': 'Todo updated successfully'}
+        if (userVerify.msg !== 'okay') {
+            return {'msg':'bad', 'cause':userVerify.cause}
+        }
+
+        // gets the userId
+        const userId = userVerify.userId
+
+        const update = await pool.query("UPDATE todo SET description = $1 WHERE id = $2 and user_id = $3", [description, id, userId], (err: any, result: any) => {
+            if (err) {
+                throw new Error(err);
+            }
+            return result;
+        })
+
+        if (getResult === 'yes') {
+            const newTodo = await getOneTodo(id)
+            return newTodo
+        } else {
+            return {msg:'okay', 'result': 'Todo updated successfully'}
+        }
+
+    } catch (error: any) {
+        return {msg:'bad', 'result': error.message}
     }
 }
 
