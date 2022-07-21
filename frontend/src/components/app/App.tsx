@@ -17,6 +17,7 @@ function App() {
     let {loggedIn, name, token} = useAppSelector((state)=> state.user)
     let dts1 = window.localStorage.getItem('todoUserDts')
 
+    // if the user is not logged in, we check the localStorage to see if there are any stored details(i.e the user name and token)
     if (dts1 && dts1.length > 0 && !loggedIn) {
         let dts2 = JSON.parse(dts1)
         dispatch(updateLoggedIn(dts2))
