@@ -7,6 +7,9 @@ import { check_this_user_is_logged_in } from '../../utils/functions';
 // importing the values needed for graphql queries
 import { GET_ALL_OF_THIS_USER_TODO_ITEMS } from '../../GraphQL/queries/todoQueries';
 
+// importing of types needed
+import type {todoProps} from '../todo/TodoEch'
+
 // importing of components
 import './App.scss';
 import rocket from '../../images/rocket.jpg'
@@ -18,11 +21,10 @@ function App() {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     let {loggedIn, name, token} = useAppSelector((state)=> state.user)
-    const {loading, error, data} = useQuery(GET_ALL_OF_THIS_USER_TODO_ITEMS, {
+    const {error: errorTodo, data:todoItems} = useQuery(GET_ALL_OF_THIS_USER_TODO_ITEMS, {
         variables:{token}
     })
 
-    console.log({loading, error, data})
     console.log(token)
     // calls a utility function to see if the user is logged in
     if (!loggedIn) {
@@ -36,6 +38,8 @@ function App() {
         }
     }, [loggedIn, navigate])
 
+    // error from graphql request
+    if (errorTodo) { alert(errorTodo.message) }
 
     return (
         <div className="AppMain">
@@ -58,7 +62,12 @@ function App() {
                 <div className="EchT3">Delete</div>
             </div>
             <div className="AppShow__EchT">
-                <TodoEch />
+                {todoItems && (
+                    todoItems.getAllTodoQuery.map((todo1: todoProps, index: number) => {
+                        return (<TodoEch key={todo1.id} todo={todo1} />)
+                    })
+                )}
+                
             </div>
         </div>
     );
