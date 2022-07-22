@@ -4,7 +4,7 @@ import {FaPen} from 'react-icons/fa'
 import {FaTrashRestore} from 'react-icons/fa'
 
 import './TodoEch.scss'
-import { UPDATE_THIS_TODO_ITEM } from '../../GraphQL/mutations/todoMutations'
+import { DELETE_THIS_TODO_ITEM, UPDATE_THIS_TODO_ITEM } from '../../GraphQL/mutations/todoMutations'
 
 
 // define the types needed for the component
@@ -18,7 +18,9 @@ export const TodoEch = ({todo, token}: finalProps) => {
     const [description, setDescription] = useState<string>(todo.description)
     const [showModal, setShowModal] = useState<boolean>(false)
     const [deleted, setDeleted] = useState<boolean>(false)
-    const [updateTodo, {error}] = useMutation(UPDATE_THIS_TODO_ITEM, {
+
+    // used for updating/saving of changes made to a todo
+    const [updateTodo, {error: error4update}] = useMutation(UPDATE_THIS_TODO_ITEM, {
         variables:{
             id: String(todoId.current), // converts the id to string because of gql problem
             description,
@@ -26,9 +28,20 @@ export const TodoEch = ({todo, token}: finalProps) => {
         }
     })
 
+    // used for deleting of a todo item
+    const [deleteTodo, {data, error: error4delete}] = useMutation(DELETE_THIS_TODO_ITEM, {
+        variables: {
+            id: String(todoId.current)
+        }
+    })
+
+
     // if any error when updating the todo item
-    if (error) {
-        alert(error.message)
+    if (error4update) alert(error4update.message);
+
+    // if any errors when delete an item from list of todo's
+    if (error4delete) {
+        alert(error4delete.message);
     }
 
     // function that saves the changes/update to the edited todo item
@@ -39,6 +52,7 @@ export const TodoEch = ({todo, token}: finalProps) => {
 
     // deletes the todo
     const deleteThisTodo = () => {
+        deleteTodo()
         setDeleted(true)
     }
 

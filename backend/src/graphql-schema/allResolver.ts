@@ -1,7 +1,7 @@
 const graphql = require('graphql');
 const {GraphQLObjectType, GraphQLSchema} = graphql;
 const {
-    getOneTodoQuery, getAllTodoQuery, addNewTodoQuery, updateTodoQuery
+    getOneTodoQuery, getAllTodoQuery, addNewTodoQuery, updateTodoQuery, deleteATodoQuery
 } = require('./todoGQLSchema');
 const {
     loginThisUser
@@ -20,6 +20,7 @@ const mutation = new GraphQLObjectType({
     fields: {
         addNewTodoQuery,
         updateTodoQuery,
+        deleteATodoQuery,
         loginThisUser
     }
 })

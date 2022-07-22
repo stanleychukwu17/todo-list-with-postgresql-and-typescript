@@ -84,7 +84,7 @@ const deleteATodoQuery = {
 
 module.exports = {
     todoType, getOneTodoQuery, getAllTodoQuery,
-    addNewTodoQuery, updateTodoQuery
+    addNewTodoQuery, updateTodoQuery, deleteATodoQuery
 }
 
 /**
