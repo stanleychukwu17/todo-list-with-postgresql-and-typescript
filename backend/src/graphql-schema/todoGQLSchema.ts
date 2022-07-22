@@ -72,7 +72,7 @@ const updateTodoQuery = {
 const deleteATodoQuery = {
     type: todoType,
     args: {
-        id: {type: GraphQLNonNull(GraphQLInt)}
+        id: {type: GraphQLNonNull(GraphQLString)}
     },
     resolve(parents: any, args: any) {
         deleteATodo(args.id)
