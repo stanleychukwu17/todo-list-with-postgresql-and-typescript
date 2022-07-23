@@ -6,9 +6,15 @@
     @include u1.block_display();
     width: 75%;
     margin: u1.rem(80) auto;
+    @include u1.breakpoint-down(medium) { // max-width: 699.98px
+        width: 93%;
+        margin: u1.rem(40) auto;
+    }
+
 
     &__Header {
-        font-size: u1.rem(35);
+        // font-size: u1.rem(35);
+        font-size: calc(16px + 2vw);
         margin-bottom: u1.rem(20);
         display: flex;
         justify-content: space-between;
@@ -17,20 +23,23 @@
         .AppPrf_name {
             text-transform: capitalize;
             display: flex;
+            align-items: center;
             margin: u1.rem(5) 0 0;
 
             button {
-                // position: relative;
                 left: 4%;
                 padding: 15px 15px;
                 width: u1.rem(140);
                 font-size: u1.rem(16);
                 font-weight: bold;
                 background-color: #f1f2f6;
-                // background-color: #f1f2f6;
                 border: 2px solid #fefefe;
                 border-radius: 60px;
-                // box-shadow: 6px 6px 7px #e9e9ea, -6px -6px 7px #ffffff;
+
+                @include u1.breakpoint-down(medium) { // max-width: 699.98px
+                    width: u1.rem(100);
+                    font-size: u1.rem(13);
+                }
             }
         }
 
@@ -43,6 +52,10 @@
             background-color: aqua;
             position: relative;
             overflow: hidden;
+            @include u1.breakpoint-down(medium) { // max-width: 699.98px
+                width: 110px;
+                height: 110px;
+            }
 
             img {
                 position: relative;
@@ -56,10 +69,17 @@
         display: flex;
         font-size: u1.rem(20);
         font-weight: bold;
-        padding: 10px 0;
+        padding: 12px 0;
+        @include u1.breakpoint-down(medium) { // max-width: 699.98px
+            font-size: u1.rem(16);
+        }
 
         .EchT1 {
             width: 70%;
+
+            &::first-letter {
+                text-transform: capitalize;
+            }
         }
         .EchT2, .EchT3 {
             width: 15%; text-align: center;
@@ -80,6 +100,10 @@
     &__smallText {
         font-size: u1.rem(16.5);
         font-weight: 400;
+
+        @include u1.breakpoint-down(medium) { // max-width: 699.98px
+            font-size: u1.rem(14);
+        }
     }
 
     .iconsO {
