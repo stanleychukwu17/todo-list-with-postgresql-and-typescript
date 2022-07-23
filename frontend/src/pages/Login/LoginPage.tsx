@@ -18,8 +18,8 @@ import {LOGIN_THIS_USER_MUTATION} from '../../GraphQL/mutations/userMutations'
 
 
 export default function LoginPage() {
-    const [logEmail, setLogEmail] = useState<string>('chukwu@gmail.com')
-    const [logPass, setLogPass] = useState<string>('missmetoday')
+    const [logEmail, setLogEmail] = useState<string>('') // email = chukwu@gmail.com
+    const [logPass, setLogPass] = useState<string>('') // password = missmetoday
     let loggedIn = useAppSelector((state)=> state.user.loggedIn)
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
