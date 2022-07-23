@@ -25,7 +25,6 @@ function App() {
         variables:{token}
     })
 
-    console.log(token)
     // calls a utility function to see if the user is logged in
     if (!loggedIn) {
         loggedIn = check_this_user_is_logged_in({dispatch})
