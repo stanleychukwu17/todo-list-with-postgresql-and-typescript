@@ -3,9 +3,11 @@ import { useMutation } from '@apollo/client'
 import {FaPen} from 'react-icons/fa'
 import {FaTrashRestore} from 'react-icons/fa'
 
-import './TodoEch.scss'
+// import queries and mutations for gql
 import { DELETE_THIS_TODO_ITEM, UPDATE_THIS_TODO_ITEM } from '../../GraphQL/mutations/todoMutations'
 
+// import the scss stylesheet
+import './TodoEch.scss'
 
 // define the types needed for the component
 export type todoProps = {id:number, description: string}
@@ -29,7 +31,7 @@ export const TodoEch = ({todo, token}: finalProps) => {
     })
 
     // used for deleting of a todo item
-    const [deleteTodo, {data, error: error4delete}] = useMutation(DELETE_THIS_TODO_ITEM, {
+    const [deleteTodo, {error: error4delete}] = useMutation(DELETE_THIS_TODO_ITEM, {
         variables: {
             id: String(todoId.current)
         }

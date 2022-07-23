@@ -4,6 +4,9 @@
     margin: 0 0 u1.rem(10);
     @include u1.block_display();
     padding: 25px 0;
+    @include u1.breakpoint-down(medium) { // max-width: 899.98
+        text-align: center;
+    }
 
     input {
         position: relative;
@@ -21,6 +24,12 @@
         }
         &:focus {
             border: 1px solid #ededed;
+        }
+
+        @include u1.breakpoint-down(medium) { // max-width: 899.98
+            width: 91%;
+            padding: 5px 4%;
+            font-size: u1.rem(14);
         }
     }
 
@@ -42,6 +51,12 @@
         &:hover {
             box-shadow: 6px 6px 7px #fff,
             -6px -6px 7px #e9e9ea;
+        }
+
+        @include u1.breakpoint-down(medium) { // max-width: 899.98
+            left: 0;
+            margin: 15px 0 0;
+            font-size: u1.rem(15);
         }
     }
 }
