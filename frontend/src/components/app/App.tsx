@@ -21,7 +21,7 @@ function App() {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     let {loggedIn, name, token} = useAppSelector((state)=> state.user)
-    const {error: errorTodo, data:todoItems} = useQuery(GET_ALL_OF_THIS_USER_TODO_ITEMS, {
+    const {error: errorTodo, data:todoItems, refetch} = useQuery(GET_ALL_OF_THIS_USER_TODO_ITEMS, {
         variables:{token}
     })
 
@@ -56,7 +56,7 @@ function App() {
                 </div>
             </div>
 
-            <Input token={token} />
+            <Input token={token} callBack={refetch} />
 
             <div className="AppMain__EchT">
                 <div className="EchT1">Description</div>

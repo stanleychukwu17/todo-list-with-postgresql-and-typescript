@@ -8,9 +8,10 @@ import { ADD_THIS_ITEM_TO_THIS_USER_TODO_LIST } from '../../GraphQL/mutations/to
 import './Input.scss'
 
 type inputProps = {
-    token: string
+    token: string,
+    callBack: Function
 }
-export const Input = ({token}: inputProps) => {
+export const Input = ({token, callBack}: inputProps) => {
     const [description, setDescription] = useState<string>('')
     const [saveNewTodo, {data, error}] = useMutation(ADD_THIS_ITEM_TO_THIS_USER_TODO_LIST, {
         variables: {description, token}
@@ -21,15 +22,15 @@ export const Input = ({token}: inputProps) => {
         if (description.length <= 0) { return }
 
         saveNewTodo()
+        setDescription('')
     }
 
     // if there are any errors 
     if (error) {
-        console.log(error)
         alert(error.message)
     }
     if (data) {
-        console.log(data)
+        callBack()
     }
 
     return (
